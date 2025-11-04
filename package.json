@@ -1,0 +1,24 @@
+{
+  "name": "mean-tradex-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^24.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.19.2"
+  }
+}
