@@ -15,7 +15,7 @@ class MongoDBConnection {
     private port: number = 27017         // ใช้ default เป็น '27017'
   ) {
     // สร้าง MongoDB URI จากข้อมูลที่รับใน constructor
-    this.dbUri = `mongodb://${this.username}:${this.password}@${this.host}:${this.port}/${this.dbName}`;
+    this.dbUri = `mongodb://${this.username}:${this.password}@${this.host}:${this.port}/${this.dbName}?authSource=admin`;
     this.isConnected = false;
   }
 
@@ -29,7 +29,7 @@ class MongoDBConnection {
 
       console.log(`Connecting to MongoDB at ${this.dbUri}...`);
       await mongoose.connect(this.dbUri);
-
+            
       this.isConnected = true;
       console.log('Successfully connected to MongoDB.');
     } catch (error) {

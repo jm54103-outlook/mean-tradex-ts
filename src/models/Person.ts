@@ -1,16 +1,21 @@
-// src/Person.ts
+// person.ts
+import mongoose, { Schema, Document } from 'mongoose';
 
-export class Person {
-    private name: string;
-    private age: number;
-  
-    constructor(name: string, age: number) {
-      this.name = name;
-      this.age = age;
-    }
-  
-    public greet() {
-      console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
-    }
-  }
-  
+// กำหนด interface สำหรับ Person
+export interface Person extends Document {
+  name: string;
+  age: number;
+  email: string;
+}
+
+// สร้าง Schema ของ Person
+const personSchema = new Schema<Person>({
+  name: { type: String, required: true },
+  age: { type: Number, required: true },
+  email: { type: String, required: true },
+});
+
+// สร้าง Model จาก Schema
+const PersonModel = mongoose.model<Person>('Person', personSchema);
+
+export default PersonModel;
