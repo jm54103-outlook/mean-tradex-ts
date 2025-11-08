@@ -11,8 +11,6 @@ const port: number = 3000;
 let db = new MongoDBConnection("admin","password","tradex");
 
 
-
-
 // Middleware สำหรับ parse JSON
 app.use(bodyParser.json());
 // Routes
