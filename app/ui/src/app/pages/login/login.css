@@ -1,0 +1,27 @@
+.login-card {
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  button {
+    width: 100%;
+  }
+
+  .button-container {
+    display: flex; /* ใช้ Flexbox */
+    justify-content: space-evenly; /* วางปุ่มให้ห่างกันเท่ากัน */
+    gap: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+  }
+  
+  .page
+  {
+    display: flex;
+    justify-content: center; /* จัดกึ่งกลางแนวนอน */
+    align-items: center;     /* จัดกึ่งกลางแนวตั้ง */
+    text-align: center;
+    height:100%; /* ความสูงเต็มหน้าจอลบกับความสูงของ header */
+  }

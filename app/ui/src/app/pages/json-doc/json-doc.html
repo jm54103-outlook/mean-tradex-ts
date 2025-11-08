@@ -1,0 +1,260 @@
+<mat-drawer-container class="page" >
+  <mat-drawer mode="side" opened="true">
+    <mat-tree #tree class="tree-panel" [dataSource]="dataSourceTreeNode" [childrenAccessor]="childrenAccessor">
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" 
+       matTreeNodePadding matTreeNodeToggle 
+       [cdkTreeNodeTypeaheadLabel]="node.name"
+       (click)="onClickJsonTreeNode(node)">
+        <button matIconButton matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" style="width:35px">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{tree.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+         &nbsp;
+        {{node.name}}
+      </mat-tree-node>
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [title]="node.id" 
+       (click)="onClickJsonTreeNode(node)">
+        <!-- use a disabled button to provide padding for tree leaf -->                       
+          <span class="material-symbols-outlined" >
+           file_json
+          </span>                          
+          &nbsp;
+          {{node.name}}       
+      </mat-tree-node>      
+    </mat-tree>
+  </mat-drawer>
+  <mat-drawer-content class="drawer-content">       
+    <mat-tab-group #Tabs animationDuration="500ms" (selectedIndexChange)="onChangeSelectedIndexTab()">
+      <mat-tab label="Object" class="mat-tab-label"  [disabled]="tree.isExpanded(dataSourceTreeNode[0])">
+          <h3>Json Object List</h3>                               
+              <li *ngFor="let node of this.dataSourceTreeNode"> 
+                {{ node?.name || 'No ID Available' }}
+                <pre>
+                  {{ node?.children | json}}
+                </pre>               
+              </li>                                          
+      </mat-tab>
+      <mat-tab label="Attributes"  [disabled]="!tree.isExpanded(dataSourceTreeNode[0]) || hasSelectedJsonSelectedTreeNode()" >   
+        <form [formGroup]="form" >
+        <div class="div-tab-attributes">  
+          <p>&nbsp;</p>    
+          <h3>Json Object Attributes</h3>    
+          <mat-card class="mat-card">
+            <mat-card-title >
+              <span>&nbsp;&nbsp;JSON</span>  
+              <mat-card-subtitle>     
+                <label>&nbsp;&nbsp;&nbsp;{{(this.selectedJsonObject==undefined) ? "Not Avaliable!!!" : this.selectedJsonObject.name}}</label>    
+                <br>  
+              </mat-card-subtitle>
+            </mat-card-title>
+            <mat-card-content>              
+                  <mat-form-field appearance="outline" style="width:300px;">
+                      <mat-label>KeyName</mat-label>
+                      <input matInput #key formControlName="key" type="text" required>          
+                  </mat-form-field> 
+                  &nbsp; 
+                  <mat-form-field appearance="outline"  >
+                      <mat-label>KeyValue</mat-label>
+                      <mat-select #value formControlName="value" >
+                              <mat-option value="String">String</mat-option>
+                              <mat-option value="Number">Number</mat-option>
+                              <mat-option value="Array">Array</mat-option>
+                              <mat-option value="Object">Object</mat-option>
+                      </mat-select>
+                  </mat-form-field>  
+                  &nbsp; 
+                  <button mat-raised-button #AddButton type="button" (click)="onClickAdd()" [disabled]="disabledAdd || !this.form.valid">add</button>
+                  &nbsp; 
+                  <button mat-raised-button #EditButton type="button" (click)="onClickEdit()" [disabled]="disabledEdit || !this.form.valid">edit</button>
+                  &nbsp; 
+                  <button mat-raised-button #RemoveButton type="button" (click)="onClickRemove()" [disabled]="disabledRemove">remove</button>
+                  &nbsp; 
+                  <button mat-raised-button #RemoveButton type="button" (click)="onClickCancel()" >cancel</button>        
+                  
+                  {{ this.form.valid | json}}
+            </mat-card-content>
+          </mat-card>         
+          <br>
+          <div class="view-container">
+            <div class="half-column-container">
+              <!-- เนื้อหาของคอลัมน์แรก -->              
+              <span class="form-title">
+                <label style="margin-left:5px;font-weight:bold;" >Field List</label>    
+              </span>              
+              <br/>        
+              <mat-tab-group #KeyValueTabs (selectedIndexChange)="onChangeKeyValueSelectedIndexTab()">                
+                <mat-tab label="Key Name">  
+                  <div class="div-table-container">     
+                    <table mat-table [dataSource]="dataSourceTable"  >
+                    <!--- Note that these columns can be defined in any order.px
+                          The actual rendered columns are set as a property on the row definition" -->
+    
+                    <!-- key Column -->
+                    <ng-container matColumnDef="treeid" style="text-align: center;">
+                      <th mat-header-cell *matHeaderCellDef style="width:50px;text-align: center;">obj</th>        
+                      <td mat-cell *matCellDef="let kv">                
+                        <span class="material-symbols-outlined" title="{{kv.treeid}}" >
+                          file_json
+                        </span>  
+                      </td>
+                    </ng-container>
+              
+                    <!-- key Column -->
+                    <ng-container matColumnDef="id" style="text-align: center;">
+                      <th mat-header-cell *matHeaderCellDef style="width:50px;text-align: center;">id</th>        
+                      <td mat-cell *matCellDef="let kv">
+                        <button matIconButton (click)="onClickSelectedRow(kv)" title="edit" style="width:45px;">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      </td>
+                    </ng-container>
+              
+                    <!-- key Column -->
+                    <ng-container matColumnDef="key">
+                      <th mat-header-cell *matHeaderCellDef style="text-align: left;"> key</th>
+                      <td mat-cell *matCellDef="let kv"> {{kv.key}} </td>
+                    </ng-container>
+              
+                    <!-- value Column -->
+                    <ng-container matColumnDef="value">
+                      <th mat-header-cell *matHeaderCellDef style="text-align: left;"> value </th>
+                      <td mat-cell *matCellDef="let kv"> {{kv.value}} </td>
+                    </ng-container>
+
+                     <!-- value Column -->
+                     <ng-container matColumnDef="property">
+                      <th mat-header-cell *matHeaderCellDef style="text-align: center;width:200px">property</th>
+                      <td mat-cell *matCellDef="let kv" style="display: flex; justify-content: center;"> 
+                        <button matIconButton style="width:45px;" title="Information" (click)="onClickSelectPropertyTab(kv,'information')">
+                          <mat-icon>info</mat-icon>                                             
+                        </button>   
+                        <button matIconButton style="width:45px;" title="Validator" (click)="onClickSelectPropertyTab(kv,'validator')">
+                          <mat-icon>checklist</mat-icon>                      
+                        </button>                                                                   
+                        <button matIconButton style="width:45px;" title="Data Object" (click)="onClickSelectPropertyTab(kv,'data')">
+                          <mat-icon>data_object</mat-icon> 
+                        </button>                                                                                     
+                      </td>
+                    </ng-container>              
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="mat-header-row" ></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height: max-content;" ></tr>              
+                    </table>
+                    <hr>
+                  </div> 
+                </mat-tab>
+                <mat-tab label="Properties" [disabled]="this.disableKeyValuePropertiesTab"> 
+                  <div class="div-property">
+                    <div style="display:flex; width:100%; background-color: lightgray;  justify-content: flex-start; align-items: center;padding-left: 5px;">
+                      <mat-icon>info</mat-icon>  Information        
+                    </div>                        
+                    <div class="grid-container">
+                      <div class="caption-grid-item">Caption</div>
+                      <div class="input-grid-item">                                   
+                         <input type="text" maxlength="50" 
+                          formControlName="caption"
+                          spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"                     
+                          (focus)="this.onFocusInformationProperty()" style="width:90%;">                        
+                      </div>
+                      <div class="caption-grid-item">Description</div>
+                      <div class="input-grid-item">
+                        <textarea style="width:90%;height:75px;" 
+                         formControlName="description"
+                         spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"    
+                         (focus)="this.onFocusInformationProperty()"  >
+                        </textarea>            
+                      </div>                 
+                    </div>  
+                    <div style="display:flex; width:100%; background-color: lightgray;  justify-content: flex-start; align-items: center;padding-left: 5px;">
+                      <mat-icon>checklist</mat-icon>  Validation            
+                    </div>                            
+                    <div class="grid-container">
+                      <div class="caption-grid-item">Required</div>
+                      <div class="input-grid-item"><mat-slide-toggle  formControlName="required" >Yes</mat-slide-toggle></div>
+                      <div class="caption-grid-item">Type</div>
+                      <div class="input-grid-item">
+                        <select style="width:50%;" formControlName="type" (focus)="this.onFocusValidatorProperty()" (change)="this.onChangeSelectIndexType()">                                                    
+                          <option *ngFor="let option of options" [value]="option.value" >{{option.viewValue}}</option>                        
+                        </select>
+                        <input type="hidden" formControlName="format" value="">
+                      </div>
+                      <div class="caption-grid-item">Length</div>
+                      <div class="input-grid-item">
+                        <input type="number" min="0" formControlName="length" value="" style="width:75px;" (focus)="this.onFocusValidatorProperty()">            
+                      </div>
+                      <div class="caption-grid-item">Min Length</div>
+                      <div class="input-grid-item">
+                        <input type="number" min="0" [maxlength]="this.form.controls['maxLength'].value" formControlName="minLength" value="" style="width:75px;"  (focus)="this.onFocusValidatorProperty()">
+                      </div>
+                      <div class="caption-grid-item">Max Length</div>
+                      <div class="input-grid-item">
+                        <input type="number" [min]="this.form.controls['minLength'].value" formControlName="maxLength" value="" style="width:75px;"  (focus)="this.onFocusValidatorProperty()">
+                      </div>
+                      <div class="caption-grid-item">Hint</div>
+                      <div class="input-grid-item">
+                        <input type="text" formControlName="hint"
+                        spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"    
+                        maxlength="150" value="" style="width:90%;" (focus)="this.onFocusValidatorProperty()">
+                      </div>
+                      <div class="caption-grid-item">Min Value</div>
+                      <div class="input-grid-item">
+                        <input type="number" formControlName="min" min="0" [max]="this.form.controls['max'].value" value="" style="width:50%;"  (focus)="this.onFocusValidatorProperty()">
+                      </div>
+                      <div class="caption-grid-item">Max Value</div>
+                      <div class="input-grid-item">
+                        <input type="number" formControlName="max" [min]="this.form.controls['min'].value" value="" style="width:50%;"  (focus)="this.onFocusValidatorProperty()">
+                      </div>
+                      <div class="caption-grid-item">
+                        &nbsp;
+                      </div>
+                      <div class="input-grid-item">
+                        &nbsp;
+                      </div>
+                    </div>    
+                  </div>                                                            
+                </mat-tab>                
+              </mat-tab-group>              
+            </div>
+            <div class="half-column-container" >
+              <!-- เนื้อหาของคอลัมน์ที่สอง -->    
+              <span class="form-title">         
+              <label style="margin-left:5px;font-weight:bold;">Json Object</label>      
+              </span>
+              <br>
+              <mat-tab-group #JsonObjectTabs >               
+                <mat-tab class="mat-tab-label" [disabled]="this.disableJsonObjectTabs">
+                  <ng-template mat-tab-label >
+                    <mat-icon>info</mat-icon>  
+                    &nbsp;
+                    <label>Information</label>
+                  </ng-template>
+                  <textarea readonly class="json-object-textarea" >{{this.selectedKeyNode.info | json}}</textarea>       
+                </mat-tab>
+                <mat-tab class="mat-tab-label" [disabled]="this.disableJsonObjectTabs">
+                  <ng-template mat-tab-label >
+                    <mat-icon>checklist</mat-icon>  
+                    &nbsp;
+                    <label>Validator</label>
+                  </ng-template>
+                  <textarea readonly class="json-object-textarea" >{{this.selectedKeyNode.validator| json}}</textarea>       
+                </mat-tab>
+                <mat-tab class="mat-tab-label" [disabled]="this.disableJsonObjectTabs">
+                  <ng-template mat-tab-label >
+                    <mat-icon>data_object</mat-icon>  
+                    &nbsp;
+                    <label>Data</label>
+                  </ng-template>
+                  <textarea readonly class="json-object-textarea" >{{this.jsonDataObject | json}}</textarea>       
+                </mat-tab>
+              </mat-tab-group>                                 
+            </div>           
+          </div>
+          <p>&nbsp;</p>            
+        </div>    
+      </form>  
+      </mat-tab>      
+    </mat-tab-group>    
+  </mat-drawer-content>
+</mat-drawer-container>

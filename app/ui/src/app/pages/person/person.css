@@ -1,0 +1,16 @@
+.person-card {
+    width: 100%;
+    min-width: fit-content;
+    max-width: 100%;
+}
+
+mat-card-title {
+    background-color: blue;
+    color: white;
+    padding: 15px;
+}
+
+mat-card-footer{
+    border-top: gray solid;  
+    padding: 15px;
+}

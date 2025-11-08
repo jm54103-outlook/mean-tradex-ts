@@ -1,0 +1,69 @@
+.main
+{    
+    background-color: var(--main-background-color);   
+}
+
+.app-toolbar
+{
+    background-color: var(--app-toolbar-background-color);
+}
+
+.app-drawer
+{
+    background-color: var(--app-drawer-background-color);
+}
+
+.app-drawer-content
+{
+    min-width: fit-content;
+    height: var(--outlet-height);       
+    min-height: max-content;
+    /*background-color:blue;*/
+    color: black;
+    background-color: cadetblue;
+}
+
+.outlet
+{
+    height: var(--outlet-height);       
+}
+
+.toggle-menu
+{
+    cursor: pointer; /* เปลี่ยน cursor เป็นรูปมือ */
+}
+
+/* เอฟเฟกต์เมื่อเมาส์ลากผ่าน (hover) */
+mat-toolbar-row:hover {
+    color: black; /* เปลี่ยนสีตัวอักษร */
+    background-color:lightblue; /* เปลี่ยนสีพื้นหลัง */
+    border-radius: 0px; /* เพิ่มมุมโค้ง */
+    transform: scale(1.1); /* ขยายขนาดเล็กน้อย */
+    transition: all 0.3s ease; /* ให้การเปลี่ยนแปลงมีความนุ่มนวล */
+    cursor: pointer; /* เปลี่ยน cursor เป็นรูปมือ */
+}
+
+.menu-icon 
+{
+    padding: 0 14px;
+}
+
+.header
+{  
+  height: var(--header-height); /* ใช้ตัวแปร */;
+  background-color: var(--footer-background-color);
+}
+
+.footer
+{ 
+  display: flex; 
+  height: var(--footer-height); /* ใช้ตัวแปร */;
+  background-color: var(--footer-background-color);
+  box-shadow: inset 10px 10px 20px rgba(0, 0, 0, 0.3); 
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+
