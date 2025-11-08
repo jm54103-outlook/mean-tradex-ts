@@ -1,6 +1,6 @@
 // personController.ts
 import { Request, Response } from 'express';
-import PersonModel, { Person } from './../models/person';
+import PersonModel, { Person } from '../models/person';
 
 class PersonController {
   // Create - เพิ่มข้อมูล Person
