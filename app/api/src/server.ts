@@ -26,5 +26,5 @@ app.get("/api/user", UserController.getUser);
 app.listen(port, () => {
  
   db.connect();
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}/api/people`);
 });
