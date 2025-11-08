@@ -16,14 +16,14 @@ let db = new MongoDBConnection("admin","password","tradex");
 // Middleware สำหรับ parse JSON
 app.use(bodyParser.json());
 // Routes
-app.post('/people', PersonController.createPerson);
-app.get('/people', PersonController.getAllPeople);
-app.get('/people/:id', PersonController.getPersonById);
-app.put('/people/:id', PersonController.updatePerson);
-app.delete('/people/:id', PersonController.deletePerson);
+app.post('/api/people', PersonController.createPerson);
+app.get('/api/people', PersonController.getAllPeople);
+app.get('/api/people/:id', PersonController.getPersonById);
+app.put('/api/people/:id', PersonController.updatePerson);
+app.delete('/api/people/:id', PersonController.deletePerson);
 
 
-app.get("/user", UserController.getUser);
+app.get("/api/user", UserController.getUser);
 
 app.listen(port, () => {
  
