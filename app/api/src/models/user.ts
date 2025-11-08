@@ -9,5 +9,6 @@ export class User {
     greet() {
       return `Hello, my name is ${this.name}`;
     }
+    
   }
   

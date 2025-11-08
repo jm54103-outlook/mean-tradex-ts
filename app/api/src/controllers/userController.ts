@@ -7,4 +7,5 @@ export class UserController {
     const user = new User(1, "John Doe", "john@example.com");
     res.json(user);
   }
+  
 }

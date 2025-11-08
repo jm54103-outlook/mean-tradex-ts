@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 //dotenv.config(); // โหลดค่าจากไฟล์ .env ถ้ามี
 
 class MongoDBConnection {
+  
   private dbUri: string;
   private isConnected: boolean;
 

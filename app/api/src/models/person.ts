@@ -1,6 +1,7 @@
 // person.ts
 import mongoose, { Schema, Document } from 'mongoose';
 
+
 // กำหนด interface สำหรับ Person
 export interface Person extends Document {
   name: string;

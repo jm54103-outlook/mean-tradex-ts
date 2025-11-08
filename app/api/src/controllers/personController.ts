@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import PersonModel, { Person } from '../models/person';
 
 class PersonController {
+  
   // Create - เพิ่มข้อมูล Person
   async createPerson(req: Request, res: Response): Promise<Response> {
     try {
