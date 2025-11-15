@@ -9,10 +9,13 @@ export interface JsonObject {
 
 // สร้าง Schema ของ JsonObject
 const JsonObjectSchema = new Schema<JsonObject>({
-  object_id: { type: String, required: true },
+  object_id: { type: Object, required: true },
   name: { type: String, required: true },
   children:[] 
 });
+
+// กำหนด Index แบบ Unique
+JsonObjectSchema.index({object_id:1, name:1}, {unique:true});
 
 // สร้าง Model จาก Schema
 const JsonObjectModel = mongoose.model<JsonObject>('JsonObject', JsonObjectSchema);
