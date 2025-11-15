@@ -41,7 +41,11 @@ const KeyValueSchema = new Schema<KeyValue>({
   value: { type: String, required: true },
 });
 
+// กำหนด Index แบบ Unique
+KeyValueSchema.index({object_id:1, key:1}, {unique:true});
+
 // สร้าง Model จาก Schema
 const KeyValueModel = mongoose.model<KeyValue>('KeyValue', KeyValueSchema);
+
 
 export default KeyValueModel;

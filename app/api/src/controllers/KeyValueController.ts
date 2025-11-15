@@ -7,7 +7,8 @@ class KeyValueController {
   
   ItemName:String;
   
-  constructor(){
+  constructor()
+  {
     this.ItemName='KeyValue';
   }
  
@@ -50,7 +51,7 @@ class KeyValueController {
      try {
        const item = await KeyValueModel.findById(req.params.id);
        if (!item) {
-         return res.status(404).json({ message: `${this.ItemName} not found` });
+         return res.status(404).json({ message: `not found` });
        }
        return res.status(200).json({ item });
      } catch (error) {
@@ -69,10 +70,10 @@ class KeyValueController {
        );
  
        if (!updatedItem) {
-         return res.status(404).json({ message: `${this.ItemName} not found` });
+         return res.status(404).json({ message: `not found` });
        }
  
-       return res.status(200).json({ message: `${this.ItemName} updated successfully`, item: updatedItem });
+       return res.status(200).json({ message: `updated successfully`, item: updatedItem });
      } catch (error) {
        return res.status(500).json({ message: `Error updating ${this.ItemName}`, error });
      }
